@@ -1,0 +1,116 @@
+{
+    "General": {
+        "teamNb": {
+            "type": "number",
+            "value": null,
+            "displayName": "Numéro d'équipe"
+        },
+        "matchType": {
+            "type": "selector",
+            "options": [
+                "Qualif",
+                "Playoff"
+            ],
+            "value": null,
+            "displayName": "Type de Match"
+        },
+        "matchNumber": {
+            "type": "number",
+            "value": null,
+            "displayName": "Numéro de Match"
+        },
+        "scouterName": {
+            "type": "string",
+            "value": null,
+            "displayName": "Nom du Scout"
+        }
+    },
+
+    "Autonome": {
+        "hasAutonomous": {
+            "type": "boolean",
+            "value": null,
+            "displayName": "Est-ce que le robot a un mode autonome?"
+        },
+        "gamePiecesAmp": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de piece dans l'amplificateur"
+        },
+        "gamePiecesSpeaker": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de piece dans le speaker"
+        }
+    },
+
+    "Tele-Op": {
+        "cycleCountDefended": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de cycle défendu"
+        },
+        "cycleCountUndefended": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de cycle non défendu"
+        },
+        "gamePiecesAmp": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de piece dans l'amplificateur"
+        },
+        "gamePiecesSpeaker": {
+            "type": "number",
+            "value": null,
+            "displayName": "Nombre de piece dans le speaker"
+        }
+    },
+
+    "Endgame": {
+        "isParked": {
+            "type": "boolean",
+            "value": null,
+            "displayName": "Est=ce que le robot est 'parked'"
+        },
+        "humanPlayerScored": {
+            "type": "boolean",
+            "value": null,
+            "displayName": "e"
+        }
+    },
+
+    "postgame": {
+        "penalties": {
+            "type": "number",
+            "value": null,
+            "displayName": "e"
+        },
+        "driverSkill": {
+            "type": "string",
+            "value": null,
+            "displayName": "e"
+        },
+        "defenseRating": {
+            "type": "number",
+            "value": null,
+            "displayName": "e"
+        },
+        "speedRating": {
+            "type": "number",
+            "value": null,
+            "displayName": "e"
+        },
+        "tippy": {
+            "type": "boolean",
+            "value": null,
+            "displayName": "e"
+        },
+        "notes": {
+            "type": "string",
+            "value": null,
+            "displayName": "e"
+        }
+    }
+
+}

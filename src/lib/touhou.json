@@ -1,0 +1,97 @@
+{
+    "general": {
+        "team": {
+            "type": "number",
+            "value": 3544
+        },
+        "matchType": {
+            "type": "selector",
+            "options": [
+                "Qualif",
+                "Playoff"
+            ],
+            "value": "Qualif"
+        },
+        "matchNumber": {
+            "type": "number",
+            "value": 69
+        },
+        "scouterName": {
+            "type": "string",
+            "value": "Ali"
+        }
+    },
+
+    "autonomous": {
+        "hasAutonomous": {
+            "type": "boolean",
+            "value": true
+        },
+        "gamePiecesAmp": {
+            "type": "number",
+            "value": 69
+        },
+        "gamePiecesSpeaker": {
+            "type": "number",
+            "value": 69
+        }
+    },
+
+    "teleop": {
+        "cycleCountDefended": {
+            "type": "number",
+            "value": 69
+        },
+        "cycleCountUndefended": {
+            "type": "number",
+            "value": 69
+        },
+        "gamePiecesAmp": {
+            "type": "number",
+            "value": 69
+        },
+        "gamePiecesSpeaker": {
+            "type": "number",
+            "value": 69
+        }
+    },
+
+    "endgame": {
+        "isParked": {
+            "type": "boolean",
+            "value": true
+        },
+        "humanPlayerScored": {
+            "type": "boolean",
+            "value": true
+        }
+    },
+
+    "postgame": {
+        "penalties": {
+            "type": "number",
+            "value": 69
+        },
+        "driverSkill": {
+            "type": "string",
+            "value": "bad"
+        },
+        "defenseRating": {
+            "type": "number",
+            "value": 69
+        },
+        "speedRating": {
+            "type": "number",
+            "value": 69
+        },
+        "tippy": {
+            "type": "boolean",
+            "value": true
+        },
+        "notes": {
+            "type": "string",
+            "value": "uwu owo good notes"
+        }
+    }
+
+}
