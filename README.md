@@ -1,2 +1,2 @@
-# Scouting frontend
-Frontend for the S3 scouting system
+# S3 Scout Interface
+Interface that the scouts will use
