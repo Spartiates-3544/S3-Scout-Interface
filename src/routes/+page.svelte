@@ -1,10 +1,22 @@
 <script>
     import { browser } from '$app/environment';
     import template from '../lib/template.json';
+    
     let sections = Object.keys(template); //an array containing all the sections in the json template
 
     let allFields = [];
     let clonnedJson = Object.assign({}, template);
+    
+    let isSaveMenuOpen = false;
+    let menuHeight = "55px";
+
+    let test = 0;
+
+    if (browser) {
+        if (!window.localStorage.getItem('allSaves')) {
+            window.localStorage.setItem("allSaves", '[]')
+        }
+    }
 
     function save() {
         sections.forEach(section => {
@@ -13,14 +25,48 @@
             })
         });
         if (browser) {
-            window.localStorage.setItem(`${clonnedJson.General.matchType.value} ${clonnedJson.General.matchNumber.value} Team ${clonnedJson.General.teamNb.value}`, JSON.stringify(clonnedJson));
+            let newSaveTitle = `${clonnedJson.General.matchType.value} ${clonnedJson.General.matchNumber.value} Team ${clonnedJson.General.teamNb.value}`
+            let allSavedValues = JSON.parse(window.localStorage.getItem('allSaves'));
+            if(!allSavedValues.includes(newSaveTitle)){
+                allSavedValues.push(`${newSaveTitle}`);
+            }          
+            let newSavedValues = [...allSavedValues]
+
+            window.localStorage.setItem(newSaveTitle, JSON.stringify(clonnedJson));
+            window.localStorage.setItem("allSaves", JSON.stringify(newSavedValues));
         }
-        console.log
     }
 
+    function openSaveMenu() {
+        isSaveMenuOpen = !isSaveMenuOpen
+        let allSavesList = JSON.parse(localStorage.getItem('allSaves'))
+
+        if (isSaveMenuOpen == true){
+            menuHeight = `calc((${allSavesList.length} + 1) * 45px + 70px`
+        } else if (isSaveMenuOpen == false){
+            menuHeight = "55px"
+
+        }
+    }
+
+    function openSave(save) {
+        if(browser) {
+            clonnedJson = Object.assign({}, JSON.parse(localStorage.getItem(save)))
+            openSaveMenu()
+        }
+    }
 </script>
 
 <style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
     main{
         background-color: rgb(5, 5, 9);
         color: #fff;
@@ -91,11 +137,11 @@
         left: 0;
         margin-left: 2%;
         width: 95%;
-        height: 65px;
+        height: var(--menuHeight);
         background-color: rgba(145, 145, 145, 0.25);
         display: grid;
-        grid-template-columns: auto auto;
-        place-content: center;
+        place-content: end center;
+        padding-bottom: 15px;
         gap: 7vw;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
@@ -103,19 +149,39 @@
         border-width: 1px;
         border-color: #4b4b4b;
         border-style: solid;
+        transition: 300ms ease-in-out;
+    }
+
+    #buttonCluster{
+        display: grid;
+        place-content: center;
+        grid-template-columns: auto auto;
+        gap: 7vw;
     }
 
     .bottomButton{
         width: 40vw;
-        height: 4vh;
+        height: 37px;
         max-width: 200px;
         border-width: 0;
         border-radius: 3px;
         color: #05080d;
     }
+
+    .save{
+        animation: fadeIn;
+        animation-duration: 300ms;
+        animation-timing-function: ease-in-out;
+        outline: none;
+        background: none;
+        border-width: 0;
+        font-size: 100%;
+        color: #fff;
+        text-align: left;
+    }
 </style>
 
-<main>
+<main style="--menuHeight: {menuHeight}">
     <p id="S3">Spartiates Scouting System</p>
 
     {#each sections as name}
@@ -142,10 +208,18 @@
             {/each}
         </section>
     {/each}
+    
     <p id="copyright">Spartiates &copy Copyright 2023 <br> Made with love by Nicky Ly & Charles Petit</p>
 
     <section id="bottomElement">
-        <button class="bottomButton" on:click={save}>Sauvegarder</button>
-        <button class="bottomButton">Modifier</button>
+        {#if isSaveMenuOpen}
+            {#each JSON.parse(localStorage.getItem('allSaves')) as save}
+                <button class="save" on:click={() => openSave(save)}>{save}</button>
+            {/each}
+        {/if}
+        <section id="buttonCluster">
+            <button class="bottomButton" on:click={save}>Sauvegarder</button>
+            <button class="bottomButton" on:click={openSaveMenu}>Modifier</button>
+        </section>
     </section>
 </main>
