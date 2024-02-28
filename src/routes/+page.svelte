@@ -42,7 +42,11 @@
         let allSavesList = JSON.parse(localStorage.getItem('allSaves'))
 
         if (isSaveMenuOpen == true){
-            menuHeight = `calc((${allSavesList.length} + 1) * 45px + 70px`
+            if(allSavesList.length > 0){
+                menuHeight = `calc(${allSavesList.length} * 45px + 70px`
+            } else {
+                isSaveMenuOpen = !isSaveMenuOpen
+            }
         } else if (isSaveMenuOpen == false){
             menuHeight = "55px"
 
