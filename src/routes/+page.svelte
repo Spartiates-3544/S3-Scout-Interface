@@ -10,11 +10,14 @@
     let isSaveMenuOpen = false;
     let menuHeight = "55px";
 
-    let test = 0;
+    let clipboard;
 
     if (browser) {
         if (!window.localStorage.getItem('allSaves')) {
             window.localStorage.setItem("allSaves", '[]')
+        }
+        if (!window.localStorage.getItem('allSavesPerm')) {
+            window.localStorage.setItem("allSavesPerm", '[]')
         }
     }
 
@@ -34,6 +37,7 @@
 
             window.localStorage.setItem(newSaveTitle, JSON.stringify(clonnedJson));
             window.localStorage.setItem("allSaves", JSON.stringify(newSavedValues));
+            window.localStorage.setItem("allSavesPerm", window.localStorage.getItem('allSaves'))
         }
     }
 
@@ -42,11 +46,7 @@
         let allSavesList = JSON.parse(localStorage.getItem('allSaves'))
 
         if (isSaveMenuOpen == true){
-            if(allSavesList.length > 0){
-                menuHeight = `calc(${allSavesList.length} * 45px + 70px`
-            } else {
-                isSaveMenuOpen = !isSaveMenuOpen
-            }
+            menuHeight = `calc(${allSavesList.length} * 47px + 220px`
         } else if (isSaveMenuOpen == false){
             menuHeight = "55px"
 
@@ -58,6 +58,29 @@
             clonnedJson = Object.assign({}, JSON.parse(localStorage.getItem(save)))
             openSaveMenu()
         }
+    }
+
+    function exportSaves() {
+		if (browser) {
+			let saves = JSON.parse(localStorage.getItem("allSaves"));
+			let saveJSONs = [];
+			let clonnedJson1 = Object.assign({}, template);
+			saves.forEach(save => {
+				let saveJson = JSON.parse(localStorage.getItem(save));
+				let keys = Object.keys(saveJson);
+
+				keys.forEach(key => {
+					let fields = Object.keys(saveJson[key]);
+
+					fields.forEach(field => {
+						clonnedJson1[key][field] = saveJson[key][field].value;
+					});
+				});
+                saveJSONs.push(clonnedJson1)
+			});
+            clipboard = saveJSONs
+            navigator.clipboard.writeText(JSON.stringify(clipboard))
+		}
     }
 </script>
 
@@ -143,10 +166,7 @@
         width: 95%;
         height: var(--menuHeight);
         background-color: rgba(145, 145, 145, 0.25);
-        display: grid;
-        place-content: end center;
         padding-bottom: 15px;
-        gap: 7vw;
         backdrop-filter: blur(5px);
         -webkit-backdrop-filter: blur(5px);
         border-radius: 10px;
@@ -154,6 +174,10 @@
         border-color: #4b4b4b;
         border-style: solid;
         transition: 300ms ease-in-out;
+        max-height: 79vh;
+        display: grid;
+        place-content: end center;
+        gap: 7vw;
     }
 
     #buttonCluster{
@@ -168,7 +192,7 @@
         height: 37px;
         max-width: 200px;
         border-width: 0;
-        border-radius: 3px;
+        border-radius: 5px;
         color: #05080d;
     }
 
@@ -182,6 +206,30 @@
         font-size: 100%;
         color: #fff;
         text-align: left;
+        width: 80vw;
+    }
+
+    #export, #alrExported{
+        animation: fadeIn;
+        animation-duration: 300ms;
+        animation-timing-function: ease-in-out;
+        height: 37px;
+        border-radius: 5px;
+        border-width: 0;
+        color: #05080d;
+    }
+
+    #export{
+        margin-bottom: 20px;
+    }
+
+    #container{
+        height: 100%;
+        display: grid;
+        gap: 7vw;
+        width: 100%;
+        overflow-y: scroll;
+        padding-top: 10px;
     }
 </style>
 
@@ -217,13 +265,19 @@
 
     <section id="bottomElement">
         {#if isSaveMenuOpen}
-            {#each JSON.parse(localStorage.getItem('allSaves')) as save}
-                <button class="save" on:click={() => openSave(save)}>{save}</button>
-            {/each}
+            <section id="container">
+                <button id="alrExported">Voir Données Déja Exporter</button>
+                <button id="export" on:click={exportSaves}>Exporter Données</button>
+                {#each JSON.parse(localStorage.getItem('allSaves')) as save}
+                    <button class="save" on:click={() => openSave(save)}>{save}</button>
+                {/each}
+            </section> 
         {/if}
         <section id="buttonCluster">
             <button class="bottomButton" on:click={save}>Sauvegarder</button>
             <button class="bottomButton" on:click={openSaveMenu}>Modifier</button>
         </section>
     </section>
+
+    <p style="overflow-x: scroll; width: 50vw;">{JSON.stringify(clipboard)}</p>
 </main>
